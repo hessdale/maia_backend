@@ -1,5 +1,8 @@
 import mariadb
 import dbcreds
+import os
+from uuid import uuid4
+
 def convert_data(cursor,results):
     column_names = [i[0] for i in cursor.description]
     new_results = []
