@@ -44,10 +44,10 @@ def delete_login():
     except ValueError:
         print("value error, try again") 
 
-@app.get("/api/design-images")
+@app.get("/api/design-photos")
 def get_design_images():
     try:
-        results = dbhelper.run_procedure("call get_design_images()",[])
+        results = dbhelper.run_procedure("call get_design_photos()",[])
         if(type(results) == list):
             return make_response(jsonify(results),200)
         else:
@@ -106,7 +106,7 @@ def get_misc_images():
         print("value error, try again") 
 
 @app.post("/api/misc-images")
-def post_design_image():
+def post_misc_image():
     try:
         # Use request.files to make sure the uploaded_image is there
         # Again you can call it whatever you would like
@@ -182,7 +182,7 @@ def post_portrait_image():
 if(dbcreds.production_mode == True):
     print("Running Production Mode")
     import bjoern #type: ignore
-    bjoern.run(app,"0.0.0.0",5000)
+    bjoern.run(app,"0.0.0.0",6785)
 else:
     from flask_cors import CORS
     CORS(app)
