@@ -5,6 +5,26 @@ from flask import Flask, request, make_response, jsonify
 
 app = Flask(__name__)
 
+@app.post("/api/client")
+def post_client():
+    try:
+        error = dbhelper.check_endpoint_info(request.json,["username","password"])
+        if(error != None):
+            return make_response(jsonify(error),400)
+        salt=uuid4().hex
+        results = dbhelper.run_procedure("call post_client(?,?,?)",[request.json.get("username"),request.json.get("password"),salt])
+        if(type(results) == list):
+            return make_response(jsonify(results),200)
+        else:
+            return make_response("sorry something went wrong",500)
+    # some except blocks with possible errors
+    except TypeError:
+        print("invalid input type, try again.")
+    except UnboundLocalError:
+        print("coding error")
+    except ValueError:
+        print("value error, try again") 
+
 @app.post("/api/client-login")
 def post_login():
     try:
