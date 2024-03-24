@@ -89,10 +89,10 @@ def post_design_image():
     except ValueError:
         print("value error, try again") 
 
-@app.get("/api/misc-images")
+@app.get("/api/misc-photos")
 def get_misc_images():
     try:
-        results = dbhelper.run_procedure("call get_misc_images()",[])
+        results = dbhelper.run_procedure("call get_misc_photos()",[])
         if(type(results) == list):
             return make_response(jsonify(results),200)
         else:
@@ -134,10 +134,10 @@ def post_misc_image():
     except ValueError:
         print("value error, try again") 
 
-@app.get("/api/portrait-images")
+@app.get("/api/portrait-photos")
 def get_portrait_images():
     try:
-        results = dbhelper.run_procedure("call get_portrait_images()",[])
+        results = dbhelper.run_procedure("call get_portrait_photos()",[])
         if(type(results) == list):
             return make_response(jsonify(results),200)
         else:
