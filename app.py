@@ -96,7 +96,7 @@ def post_design_image():
             return make_response(jsonify(error),400)
         if(file_name == None):
             return make_response(jsonify("Sorry, something has gone wrong"), 500)
-        results = dbhelper.run_procedure("call post_design_image(?,?,?)",[request.headers.get("token"),file_name,request.form["image_description"]])
+        results = dbhelper.run_procedure("call post_design_photo(?,?,?)",[request.headers.get("token"),file_name,request.form["image_description"]])
         if(type(results) == list):
             return make_response(jsonify(results),200)
         else:
