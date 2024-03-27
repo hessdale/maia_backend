@@ -89,14 +89,14 @@ def post_design_image():
         if(is_valid != None):
             return make_response(jsonify(is_valid), 400)
         # Save the image using the helper found in apihelpers
-        file_name = dbhelper.save_file(request.files['uploaded_image'])
+        file = dbhelper.save_file(request.files['uploaded_image'])
         # If the filename is None something has gone wrong
         error = dbhelper.check_endpoint_info(request.form,["image_description"])
         if(error != None):
             return make_response(jsonify(error),400)
-        if(file_name == None):
+        if(file == None):
             return make_response(jsonify("Sorry, something has gone wrong"), 500)
-        results = dbhelper.run_procedure("call post_design_photo(?,?,?)",[request.headers.get("token"),file_name,request.form["image_description"]])
+        results = dbhelper.run_procedure("call post_design_photo(?,?,?)",[request.headers.get("token"),file,request.form["image_description"]])
         if(type(results) == list):
             return make_response(jsonify(results),200)
         else:
