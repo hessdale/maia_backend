@@ -175,8 +175,9 @@ def get_portrait_images():
 @app.post("/api/portrait-images")
 def post_portrait_image():
     try:
-        # Use request.files to make sure the uploaded_image is there
-        # Again you can call it whatever you would like
+        error = dbhelper.check_endpoint_info(request.headers,["token"])
+        if(error != None):
+            return make_response(jsonify(error),400)
         is_valid = dbhelper.check_endpoint_info(request.files, ['uploaded_image'])
         if(is_valid != None):
             return make_response(jsonify(is_valid), 400)
@@ -188,7 +189,7 @@ def post_portrait_image():
             return make_response(jsonify(error),400)
         if(file_name == None):
             return make_response(jsonify("Sorry, something has gone wrong"), 500)
-        results = dbhelper.run_procedure("call post_portrait_image(?,?,?)",[request.headers.get("token"),file_name,request.form["image_description"]])
+        results = dbhelper.run_procedure("call post_portrait_photo(?,?,?)",[request.headers.get("token"),file_name,request.form["image_description"]])
         if(type(results) == list):
             return make_response(jsonify(results),200)
         else:
