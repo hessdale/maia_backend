@@ -202,13 +202,13 @@ def post_portrait_image():
     except ValueError:
         print("value error, try again")       
 
-@app.post("api/contact-form")
+@app.post("/api/contact-form")
 def post_contact_form():
     try:
-        error = dbhelper.check_endpoint_info(request.form,['FirstName','LastName','Email','Note'])
+        error = dbhelper.check_endpoint_info(request.json,['FirstName','LastName','Email','Note'])
         if(error != None):
             return make_response(jsonify(error),400)
-        results = dbhelper.run_procedure("call post_contact_form(?,?,?)",[request.form['FirstName'],request.form['LastName'],request.form['Email'],request.form['Note'],])
+        results = dbhelper.run_procedure("call post_contact_form(?,?,?,?)",[request.json['FirstName'],request.json['LastName'],request.json['Email'],request.json['Note']])
         if(type(results) == list):
             return make_response(jsonify(results),200)
         else:
